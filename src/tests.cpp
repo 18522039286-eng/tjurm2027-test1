@@ -6,8 +6,12 @@ int my_strlen(char *str) {
      * 统计字符串的长度，太简单了。
      */
 
-    // IMPLEMENT YOUR CODE HERE
-    return 0;
+     int num=0;
+    while(str[num]= '\0'){
+        num++;
+    }
+    return num;
+
 }
 
 
