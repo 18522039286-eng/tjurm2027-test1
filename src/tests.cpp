@@ -6,9 +6,11 @@ int my_strlen(char *str) {
      * 统计字符串的长度，太简单了。
      */
 
-     int num=0;
-    while(str[num]= '\0'){
+    int num=0;
+    
+    while(*str != '\0'){
         num++;
+        str++;
     }
     return num;
 
@@ -22,7 +24,17 @@ void my_strcat(char *str_1, char *str_2) {
      * 注意结束符'\0'的处理。
      */
 
-    // IMPLEMENT YOUR CODE HERE
+    int a=0;
+    while (str_1[a]!='\0'){
+        a++;
+    }
+    int b=0;
+    while (str_2[b]!='\0'){
+        str_1[a]=str_2[b];
+        b++;
+        a++;    
+    }
+    str_1[a]='\0';
 }
 
 
@@ -34,9 +46,28 @@ char* my_strstr(char *s, char *p) {
      * s = "123456", p = "34"，应该返回指向字符'3'的指针。
      */
 
-    // IMPLEMENT YOUR CODE HERE
+    int a=0;
+    while (p[a]!='\0'){
+        a++;
+    }
+    int b=0;
+    while (s[b]!='\0'){
+        b++;
+    }
+    if(a==0) return s;
+    if(a>b) return 0;
+    for (int i=0;i<b-a+1;i++){
+        int j=0;
+        while(j<a&&s[i+j]==p[j]){
+            j++;
+        }
+        if(j==a){
+            return &s[i];
+        }
+    }
     return 0;
 }
+    
 
 
 /**
