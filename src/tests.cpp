@@ -242,28 +242,30 @@ void resize(float *in, float *out, int h, int w, int c, float scale) {
     int new_h = h * scale, new_w = w * scale;
     for (int i=0;i<new_h;i++){
         for (int j=0;j<new_w;j++){
-            float x0=j/scale;
-            float y0=i/scale;
-            int x1 = static_cast<int>(x0); 
-            int y1 = static_cast<int>(y0);
-            int x2 = x1+1;
-            int y2 = y1+1;
-            if (x2>w || y2>h){
-                break;
-            }else{
-                float P1 = in[y2*w+x1];
-                float P2 = in[y2*w+x2];
-                float P3 = in[y1*w+x1];
-                float P4 = in[y1*w+x2];
-                float dx = x0-x1;
-                float dy = y0-y1;
-                float Q = P1 * (1 - dx)*(1 - dy) + P2 * dx*(1 - dy)+ P3 * (1 - dx)*dy + P4 * dx*dy;
-                out[i*w+j]=Q;
-            }
+            for (int k=0;k<c;k++){
+                float x0=j/scale;
+                float y0=i/scale;
+                int x1 = static_cast<int>(x0); 
+                int y1 = static_cast<int>(y0);
+                int x2 = x1+1;
+                int y2 = y1+1;
+                if (x2>=w || y2>=h){
+                    break;
+                }else{
+                    float P1 = in[(y2*w+x1)*c+k];
+                    float P2 = in[(y2*w+x2)*c+k];
+                    float P3 = in[(y1*w+x1)*c+k];
+                    float P4 = in[(y1*w+x2)*c+k];
+                    float dx = x0-x1;
+                    float dy = y0-y1;
+                    float Q = P1 * (1 - dx)*(1 - dy) + P2 * dx*(1 - dy)+ P3 * (1 - dx)*dy + P4 * dx*dy;
+                    out[(i*new_w+j)*c+k]=Q;
+                }
 
+            }
+            
         }
     }
-
 }
 
 
