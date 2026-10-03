@@ -153,6 +153,7 @@ void test_resize() {
         free(resized);
     }
     free(img);
+    std::cout << std::endl << std::endl;
 }
 
 int main() {

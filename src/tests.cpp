@@ -129,9 +129,17 @@ void rgb2gray(float *in, float *out, int h, int w) {
      * (1) for循环的使用。
      * (2) 内存的访问。
      */
-
-    // IMPLEMENT YOUR CODE HERE
-    // ...
+    for (int i=0;i<h;i++){
+        for (int j=0;j<w;j++){
+            int a=(i*w+j)*3;
+            float R=in[a];
+            float G=in[a+1];
+            float B=in[a+2];
+            float V= 0.1140 * B  + 0.5870 * G + 0.2989 * R;
+            out[i*w+j]=V;
+        }
+    }
+    
 }
 
 // 练习5，实现图像处理算法 resize：缩小或放大图像
@@ -232,7 +240,29 @@ void resize(float *in, float *out, int h, int w, int c, float scale) {
      */
 
     int new_h = h * scale, new_w = w * scale;
-    // IMPLEMENT YOUR CODE HERE
+    for (int i=0;i<new_h;i++){
+        for (int j=0;j<new_w;j++){
+            float x0=j/scale;
+            float y0=i/scale;
+            int x1 = static_cast<int>(x0); 
+            int y1 = static_cast<int>(y0);
+            int x2 = x1+1;
+            int y2 = y1+1;
+            if (x2>w || y2>h){
+                break;
+            }else{
+                float P1 = in[y2*w+x1];
+                float P2 = in[y2*w+x2];
+                float P3 = in[y1*w+x1];
+                float P4 = in[y1*w+x2];
+                float dx = x0-x1;
+                float dy = y0-y1;
+                float Q = P1 * (1 - dx)*(1 - dy) + P2 * dx*(1 - dy)+ P3 * (1 - dx)*dy + P4 * dx*dy;
+                out[i*w+j]=Q;
+            }
+
+        }
+    }
 
 }
 
